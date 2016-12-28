@@ -1,0 +1,53 @@
+
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <title>{%block title%}{%endblock%}</title>
+  <!-- Styles -->
+  {%load static%}
+  <link rel="stylesheet" href="{% static "/css/style.css" %}">
+  <link rel="stylesheet" href="{% static "/css/bootstrap.min.css" %}">
+
+  
+</head>
+
+<body>
+  <div class="navbar navbar-inverse navbar-fixed-top">
+    <div class="container">
+      <div class="navbar-header">
+        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+        <a href="/" class="navbar-brand">MyShop</a>
+      </div>
+      <div class="navbar-collapse collapse">
+        <ul class="nav navbar-nav">
+          <!--<li><a href="{% url 'shop:ProductList' %}">Categories</a></li>-->
+        </ul>
+        <ul class="nav navbar-nav navbar-right">
+          {%with total_items=cart|length%} {%if cart|length > 0%}
+          <li><a href="{% url "cart:CartDetail" %}"><i style="color:white" class="fa fa-shopping-cart cart-icon"></i> Корзина <span style="background-color:white;color: black;" class="badge">{{ total_items }}</span> {{ cart.get_total_price }} грн{%else %}<li><a href="/"><i style="color:white" class="fa fa-shopping-cart cart-icon"></i>Корзина пустая</a></li>{%endif%} {%endwith%}</a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <div id="content" style="padding-top: 50px;" class="container body-content">
+    <div class="row">
+      <div class="col-md-6 col-lg-12">
+        {% block content %}{% endblock %}
+      </div>
+    </div>
+    <hr/>
+    <footer>
+      <p>&copy; Application</p>
+    </footer>
+  </div>
+
+</body>
+
+</html>

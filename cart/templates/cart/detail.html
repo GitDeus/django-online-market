@@ -1,0 +1,45 @@
+{% extends "shop/base.html" %} {% block title %} Ваша корзина товаров {% endblock %} {% block content %}
+<h1>Ваша корзина товаров</h1>
+
+<div id="shopping-cart" class="shopping-cart">
+<div class="shopping-cart-header">
+  <i class="fa fa-shopping-cart cart-icon"></i><span class="badge">{{cart|length}}</span>
+  <div class="shopping-cart-total">
+    <span class="lighter-text">Total:{{ cart.get_total_price }} грн.</span>
+  </div>
+</div>
+<!--end shopping-cart-header -->
+
+<ul class="shopping-cart-items col-md-12">
+  {% for item in cart %} {% with product=item.product %}
+  <li style="list-style-type: none;" class='clearfix col-md-6'>
+    <a href="{{ item.product.get_absolute_url }}"><img style="height: 200px;" src='{{ item.product.image.url }}' alt='{{ item.product.image.url }}' /></a>
+    
+    <span class='item-name'>{{ item.product.name }}</span><span class='item-price'>{{ item.price }} грн.</span>
+
+    <form action="{% url "cart:CartAdd" product.id %}" method="post" class="add">
+      {{ item.update_quantity_form.quantity }} {{ item.update_quantity_form.update }} {% csrf_token %}
+      <input type="submit" value="Обновить">
+    </form>
+    <br>
+    <span class='item-price'>В сумме {{ item.total_price}} грн.</span>
+    
+    <!--<span class='item-quantity'>Quantity:1</span>-->
+    <a style="padding: 0 15px;"  href="{% url "cart:CartRemove" product.id %}">
+      <i style='font-size: 20px' class='delete_item_in_cart fa fa-trash-o'></i>
+  </a>
+</li>
+  {% endwith %} {% endfor %}
+</ul>
+
+<p class="text-right">
+      <a href="{% url "shop:ProductList"%}" class="btn">Продолжить Шопинг</a>
+      <a href="{% url "orders:OrderCreate" %}" class="btn">Оформить заказ</a>
+    </p>
+</div>
+<!--end shopping-cart -->
+
+    
+
+
+{% endblock %}
